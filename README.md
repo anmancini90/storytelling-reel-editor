@@ -57,7 +57,7 @@ else
       && mv "$TMP/storytelling-reel-editor-main" "$SRC"; rm -rf "$TMP"
   fi
 fi
-[ -f "$SRC/skill/SKILL.md" ] && bash "$SRC/skill/scripts/install.sh" || echo "DOWNLOAD FAILED: $SRC/skill is missing"
+if [ -f "$SRC/skill/SKILL.md" ]; then bash "$SRC/skill/scripts/install.sh"; else echo "DOWNLOAD FAILED: $SRC/skill is missing"; fi
 ```
 
 What it does: keeps a copy of this repo in `~/.reel-editor/source` (updated in place when run again), then
