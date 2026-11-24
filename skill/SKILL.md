@@ -288,10 +288,11 @@ it. Never save a creator's preference into `$SKILL/style.json`: that's the base 
 
 ## Running in Codex (or another agent)
 
-`bash scripts/install.sh` (from the unzipped folder) installs the skill for Claude Code and links it for Codex at
+The repo README's "Agent setup" (https://github.com/anmancini90/storytelling-reel-editor) keeps a copy of the repo in
+`~/.reel-editor/source` and runs `skill/scripts/install.sh`, which installs the skill for Claude Code and links it for Codex at
 `$CODEX_HOME/skills/storytelling-reel-editor` (`~/.codex` by default) when Codex is on the computer: one copy of the
 skill for both. Preferences and styles live in the Reels workspace, which both agents read, so either agent sees what
-the other saved. Running it again with a newer download updates the skill (an older one is refused; `--force` goes
+the other saved. Running it again updates the skill (an older one is refused; `--force` goes
 back). Setup lives in `~/.reel-editor/` (override with `REEL_EDITOR_HOME`). Sandboxed agents need permission for: MLX/Metal (Whisper transcription fails inside a sandbox
 without Metal; run it on the host), launching Chrome (render, stills, safezone, impact_windows), `swiftc` + Apple
 Vision (cutout.py, heads.py; compiled once into the tool home's `bin/`; without them the scripts fall back to

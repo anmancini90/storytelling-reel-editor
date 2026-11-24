@@ -27,19 +27,43 @@ This is the system I use for my own reels.
 
 ## Install (one prompt)
 
-1. Download the skill and leave it in your Downloads folder (zipped or unzipped, either is fine).
-2. Open the Claude desktop app, click the **Code** tab (or open Codex), paste this, then drag your video in right after
-   it and press Enter:
+Open the Claude desktop app and click the **Code** tab (or open Codex). Paste this, drag your video in right after it,
+and press Enter:
 
-   > Install the newest storytelling-reel-editor download from my Downloads folder: unzip it if needed and run
-   > `bash <that folder>/scripts/install.sh`. Then read the installed SKILL.md and use it to edit this video:
+> Set up the storytelling-reel-editor skill from https://github.com/anmancini90/storytelling-reel-editor (follow the README's "Agent setup"), then use it to edit this video:
 
 Click **Allow** when it asks to run something. If it says Homebrew is missing, install it from https://brew.sh and
-paste the prompt again.
+paste the prompt again. To update later, paste the same prompt: your styles, videos and sounds are never touched.
 
-`install.sh` puts the skill in Claude's skills folder and, if Codex is on your computer, links it there too, so both
-apps share one copy. To update, download the new version and paste the same prompt: your styles, videos and sounds
-are never touched, and an older download never replaces a newer install.
+## Agent setup
+
+For the AI agent doing the install. Run this block as it is, then read the installed `SKILL.md` and follow it.
+
+```bash
+REPO_URL=https://github.com/anmancini90/storytelling-reel-editor.git
+ZIP_URL=https://github.com/anmancini90/storytelling-reel-editor/archive/refs/heads/main.zip
+SRC="${REEL_EDITOR_HOME:-$HOME/.reel-editor}/source"
+mkdir -p "$(dirname "$SRC")"
+# Only use git when Apple's developer tools are installed (on a fresh Mac, plain `git` opens an install popup).
+if xcode-select -p >/dev/null 2>&1 && [ -d "$SRC/.git" ]; then
+  git -C "$SRC" fetch -q origin && git -C "$SRC" reset -q --hard origin/main
+else
+  rm -rf "$SRC"
+  if xcode-select -p >/dev/null 2>&1; then
+    git clone -q "$REPO_URL" "$SRC"
+  else
+    TMP="$(mktemp -d)"
+    curl -fsSL "$ZIP_URL" -o "$TMP/main.zip" && unzip -q "$TMP/main.zip" -d "$TMP" \
+      && mv "$TMP/storytelling-reel-editor-main" "$SRC"; rm -rf "$TMP"
+  fi
+fi
+[ -f "$SRC/skill/SKILL.md" ] && bash "$SRC/skill/scripts/install.sh" || echo "DOWNLOAD FAILED: $SRC/skill is missing"
+```
+
+What it does: keeps a copy of this repo in `~/.reel-editor/source` (updated in place when run again), then
+`skill/scripts/install.sh` copies the skill into Claude's skills folder (`${CLAUDE_CONFIG_DIR:-~/.claude}/skills`),
+links it for Codex when Codex is installed (one copy for both apps), and runs setup, which names anything missing
+(ffmpeg, Node.js, Chrome, Python) with the command to install it. An older version never replaces a newer install.
 
 ## Your first edit
 
