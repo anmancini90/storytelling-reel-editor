@@ -331,9 +331,9 @@ def video_dir_of(arg):
 
 
 def intake(files, topic, date, together):
-    """Raw files -> their own video folder's raw/. One folder per file unless --together. Files inside the workspace
-    (00_Inbox) are moved; files from anywhere else are copied, so a creator's Downloads or Desktop keeps its original."""
-    root = os.path.realpath(workspace_or_exit())
+    """Raw files -> their own video folder's raw/. One folder per file unless --together. Files in 00_Inbox are moved;
+    files from anywhere else (Downloads, Desktop, another video's raw/) are copied, so a creator's Downloads or Desktop keeps its original."""
+    inbox = os.path.join(os.path.realpath(workspace_or_exit()), "00_Inbox")
     paths = [os.path.abspath(os.path.expanduser(f)) for f in files]
     for f in paths:
         if not os.path.isfile(f):
@@ -346,7 +346,7 @@ def intake(files, topic, date, together):
         d = make_video(name, date, footage="raw/: " + ", ".join(os.path.basename(f) for f in g))
         print(f"VIDEO {d}")
         for f in g:
-            inside = os.path.commonpath([os.path.realpath(f), root]) == root
+            inside = os.path.commonpath([os.path.realpath(f), inbox]) == inbox
             put = (move_file if inside else copy_file)(f, os.path.join(d, "raw"))
             how = "" if inside else f"  (copied; the original stays in {os.path.dirname(f)})"
             print(f"  raw/{os.path.basename(put)}{how}")

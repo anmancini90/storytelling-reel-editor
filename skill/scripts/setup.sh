@@ -3,6 +3,11 @@
 # Creates ~/.reel-editor/ with a Python venv (Whisper + numpy + Pillow + SciPy + yt-dlp) and puppeteer-core (drives your Chrome).
 # Re-running is safe: it only installs what is missing.   Override the location with REEL_EDITOR_HOME=/path
 set -e
+# Homebrew's apps may not be on PATH yet (a fresh install asks you to add it and open a new terminal): look there too.
+for d in ${REEL_BREW_DIRS-/opt/homebrew/bin /usr/local/bin}; do
+  if [ -d "$d" ]; then case ":$PATH:" in *":$d:"*) ;; *) PATH="$d:$PATH" ;; esac; fi
+done
+export PATH
 RE_HOME="${REEL_EDITOR_HOME:-$HOME/.reel-editor}"
 OS="$(uname -s)"; ARCH="$(uname -m)"
 missing=0

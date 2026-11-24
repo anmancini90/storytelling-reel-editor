@@ -21,8 +21,8 @@ and press Enter:
 
 > Set up the storytelling-reel-editor skill from https://github.com/anmancini90/storytelling-reel-editor (follow the README's "Agent setup"), then use it to edit this video:
 
-Click **Allow** when it asks to run something. If it says Homebrew is missing, install it from https://brew.sh and
-paste the prompt again. To update later, paste the same prompt: your styles, videos and sounds are never touched.
+Click **Allow** when it asks to run something. If it says Homebrew is missing, install it from https://brew.sh, start a new
+chat and paste the prompt again. To update later, paste the same prompt: your styles, videos and sounds are never touched.
 
 ## What you get
 
@@ -125,7 +125,8 @@ Instagram or TikTok when you post: it's licensed there, and trending sounds help
 
 <details><summary><b>Does my footage get uploaded anywhere?</b></summary>
 
-No. Everything runs on your Mac. Your videos never leave it.
+Your video files stay on your Mac: the editing, rendering and sound all run there. Your AI agent (Claude or Codex)
+sees the transcript and some still frames while it works, like any file you show it in a chat.
 </details>
 
 <details><summary><b>How do I update?</b></summary>
@@ -135,7 +136,8 @@ Paste the install prompt again. Your styles, videos and sound kit live in your R
 
 <details><summary><b>It says Homebrew (or ffmpeg, Node.js, Chrome) is missing.</b></summary>
 
-Install what it names with the command it gives (Homebrew from https://brew.sh), then paste the prompt again.
+Install what it names with the command it gives (Homebrew from https://brew.sh). After installing Homebrew, start a new
+chat and paste the prompt again.
 </details>
 
 <details><summary><b>Can I use the reels commercially?</b></summary>
@@ -145,33 +147,44 @@ Yes, your reels are yours. See [LICENSE.md](LICENSE.md) for the skill itself and
 
 ## Agent setup
 
-For the AI agent doing the install. Run this block as it is, then read the installed `SKILL.md` and follow it.
+For the AI agent doing the install. Run this block as it is (the first run installs the editing tools and takes about
+10 minutes: use a 10-minute timeout or run it in the background), then read the installed `SKILL.md` and follow it.
 
 ```bash
 REPO_URL=https://github.com/anmancini90/storytelling-reel-editor.git
 ZIP_URL=https://github.com/anmancini90/storytelling-reel-editor/archive/refs/heads/main.zip
 SRC="${REEL_EDITOR_HOME:-$HOME/.reel-editor}/source"
 mkdir -p "$(dirname "$SRC")"
-# Only use git when Apple's developer tools are installed (on a fresh Mac, plain `git` opens an install popup).
-if xcode-select -p >/dev/null 2>&1 && [ -d "$SRC/.git" ]; then
-  git -C "$SRC" fetch -q origin && git -C "$SRC" reset -q --hard origin/main
-else
-  rm -rf "$SRC"
-  if xcode-select -p >/dev/null 2>&1; then
-    git clone -q "$REPO_URL" "$SRC"
+get_zip() {
+  rm -rf "$SRC"; TMP="$(mktemp -d)"
+  curl -fsSL "$ZIP_URL" -o "$TMP/main.zip" && unzip -q "$TMP/main.zip" -d "$TMP" \
+    && mv "$TMP/storytelling-reel-editor-main" "$SRC"
+  rm -rf "$TMP"
+}
+STOP=""
+# Never delete a folder this setup did not make.
+if [ -n "$(ls -A "$SRC" 2>/dev/null)" ] && [ ! -f "$SRC/skill/SKILL.md" ] && ! grep -qsF "$REPO_URL" "$SRC/.git/config"; then
+  echo "STOPPED: $SRC already holds something else. Move it, or set REEL_EDITOR_HOME to another folder."; STOP=1
+# Use git only when the Apple developer tools are installed (on a fresh Mac, plain git opens an install popup).
+elif xcode-select -p >/dev/null 2>&1; then
+  if [ -d "$SRC/.git" ]; then
+    { git -C "$SRC" fetch -q --depth 1 origin main && git -C "$SRC" reset -q --hard FETCH_HEAD; } || get_zip
   else
-    TMP="$(mktemp -d)"
-    curl -fsSL "$ZIP_URL" -o "$TMP/main.zip" && unzip -q "$TMP/main.zip" -d "$TMP" \
-      && mv "$TMP/storytelling-reel-editor-main" "$SRC"; rm -rf "$TMP"
+    rm -rf "$SRC"; git clone -q --depth 1 "$REPO_URL" "$SRC" || get_zip
   fi
+else
+  get_zip
 fi
-if [ -f "$SRC/skill/SKILL.md" ]; then bash "$SRC/skill/scripts/install.sh"; else echo "DOWNLOAD FAILED: $SRC/skill is missing"; fi
+if [ -n "$STOP" ]; then :
+elif [ -f "$SRC/skill/SKILL.md" ]; then bash "$SRC/skill/scripts/install.sh"
+else echo "DOWNLOAD FAILED: $SRC/skill is missing (check the internet connection and run this again)"; fi
 ```
 
-What it does: keeps a copy of this repo in `~/.reel-editor/source` (updated in place when run again), then
-`skill/scripts/install.sh` copies the skill into Claude's skills folder (`${CLAUDE_CONFIG_DIR:-~/.claude}/skills`),
-links it for Codex when Codex is installed (one copy for both apps), and runs setup, which names anything missing
-(ffmpeg, Node.js, Chrome, Python) with the command to install it. An older version never replaces a newer install.
+What it does: keeps a copy of this repo in `~/.reel-editor/source` (updated in place when run again; git when the
+Mac has it, otherwise GitHub's zip), then `skill/scripts/install.sh` copies the skill into Claude's skills folder
+(`${CLAUDE_CONFIG_DIR:-~/.claude}/skills`), links it for Codex when Codex is installed (one copy for both apps), and
+runs setup, which names anything missing (ffmpeg, Node.js, Chrome, Python) with the command to install it. An older
+version never replaces a newer install.
 
 ## What's inside
 
