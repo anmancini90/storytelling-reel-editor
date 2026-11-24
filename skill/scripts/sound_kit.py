@@ -407,6 +407,8 @@ def build_kit(picks, kit=None, originals=None, candidates=None):
     info = {c["id"]: c for cs in candidates.values() for c in cs}
     k = _load_kit_json(kit)
     for role, ids in picks.items():
+        if role not in ROLES:
+            sys.exit(f"{role!r} isn't a sound kit role ({', '.join(ROLES)})")
         entries = []
         for i in ids:
             if not is_sound_id(i):
