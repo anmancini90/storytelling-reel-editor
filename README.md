@@ -1,29 +1,18 @@
-# Storytelling Reel Editor: a Claude skill by Ant Mancini (@ant.mancini)
+<div align="center">
 
-Film yourself talking, retakes and all. Claude turns it into a finished, ready-to-post vertical reel, edited in the
-style you love:
+# Storytelling Reel Editor
 
-- **A tight story cut.** Your raw takes, mistakes and dead air go in. The best take of each line, in a tight order,
-  comes out. You approve this "A cut" before anything else happens.
-- **Your style, learned from reels you love.** The first time, send 3 to 5 reels that stop you mid-scroll. Claude
-  breaks down their captions, pacing, graphics and sound, then builds *your* style from them. Every edit starts from it.
-- **Captions and simple graphics timed to your words:** notifications, app cards, a screenshot of your app or site,
-  big words behind your head, a "Comment X" box for your call to action. You see a storyboard before it's rendered.
-- **Designed sound.** Whooshes on every move, pops on every graphic, typing on typed text, a hit on the big line, all
-  from your own sound kit of free Mixkit sounds that you pick by ear. Your voice gets a gentle clean-up too.
-- **Nothing under the TikTok/Reels buttons.** Every frame is checked against the app's button zones.
-- **It learns your taste.** Say "make that the default" and it's saved for every future edit.
+**Film yourself talking, retakes and all. Your AI agent turns it into a finished, ready-to-post reel, in your style.**
 
-This is the system I use for my own reels.
+A free skill for **Claude Code** and **Codex** · made by [Ant Mancini](https://www.instagram.com/ant.mancini/)
 
-## What you need
+<img src="docs/images/before-after.gif" width="556" alt="Left: the raw take. Right: the finished reel with captions and a hook title.">
 
-- **Claude Code** (the "Code" tab in the Claude desktop app, or the `claude` terminal app; needs a paid Claude plan)
-  **or Codex**. Have both? One install works in both.
-- **A Mac** (Apple Silicon is fastest). Linux and Windows aren't supported yet.
-- **Google Chrome**, **ffmpeg**, **Node.js** and **Python 3**. Don't worry if you don't have them: setup tells you
-  exactly what's missing and the one-line command to install it.
-- About 3 GB of free space (the editing tools and the speech-to-text model download once).
+<sub>Same moment, before and after. A 5-minute raw take with retakes became a 46-second reel.</sub>
+
+</div>
+
+---
 
 ## Install (one prompt)
 
@@ -34,6 +23,125 @@ and press Enter:
 
 Click **Allow** when it asks to run something. If it says Homebrew is missing, install it from https://brew.sh and
 paste the prompt again. To update later, paste the same prompt: your styles, videos and sounds are never touched.
+
+## What you get
+
+| | |
+|---|---|
+| ✂️ **A tight story cut** | Your raw takes, mistakes and dead air go in. The best take of each line, in a tight order, comes out. You approve this "A cut" first. |
+| 🎨 **Your style** | Send 3 to 5 reels you love. It breaks down their captions, pacing, graphics and sound, and builds *your* style from them. |
+| 💬 **Captions and graphics on your words** | Hook titles, typed code, impact words, your app full screen, notifications, a "Comment X" box for your call to action. |
+| 🔊 **Designed sound** | A whoosh on every move, a pop on every graphic, typing under typed text, a hit on the big line, from a sound kit you pick by ear. |
+| 📱 **Nothing under the app buttons** | Every frame is checked against the TikTok and Reels button zones. |
+| 🧠 **It learns your taste** | Say "make that the default" and every future edit starts from it. |
+
+<div align="center">
+<img src="docs/images/moments.jpg" width="720" alt="Six moments from a finished reel: hook title, typed code, impact word, an app full screen, an explain canvas, a comment CTA.">
+<br><sub>Six moments from one finished reel.</sub>
+</div>
+
+## How an edit goes
+
+```mermaid
+flowchart LR
+    A[Your raw video] --> B[Story cut]
+    B --> C{"Stop 1<br/>watch the A cut"}
+    C --> D[Captions + graphics]
+    D --> E{"Stop 2<br/>the storyboard"}
+    E --> F[Sound design]
+    F --> G[Your reel<br/>+ a phone copy]
+```
+
+Two stops where you decide; everything in between is automatic.
+
+<div align="center">
+<img src="docs/images/storyboard.jpg" width="720" alt="A storyboard sheet: still frames at each graphic, red bands where the app buttons sit.">
+<br><sub>Stop 2, the storyboard: a still at each graphic, checked before anything renders. Red bands mark the app's button zones.</sub>
+</div>
+
+### Your first edit
+
+1. **Your Reels folder.** It asks where to keep your videos (outside iCloud, so big files don't go "offline"). You get an
+   inbox, your style, and one folder per video. Videos from Downloads or your Desktop are copied, never moved.
+2. **Build my style.** Send 3 to 5 reel links (Instagram, TikTok or YouTube) or files. A line on what you like about
+   each helps. You approve a test still before it's saved.
+3. **Stop 1, the A cut.** Watch the story cut. Ask for changes or say it's good.
+4. **Stop 2, the storyboard.** See where every caption and graphic lands. Change anything.
+5. **Your sound kit (first time only).** About 3 free Mixkit sounds for each kind of moment, played on your own video.
+   It asks before downloading anything. Keep the ones you like.
+6. **Your reel.** A full-quality file to post, a lighter copy for your phone, and every version kept (`-v1`, `-v2`...).
+
+After that, just ask:
+
+> Edit the video in my inbox.
+
+> When I say "my app", show a screenshot of my homepage (~/Desktop/home.png) full screen.
+
+> Add a comment box for my CTA "Comment GUIDE", my handle is @yourhandle.
+
+Then give feedback like you would to an editor: "the captions a touch bigger", "that whoosh comes in late", "make that
+the default".
+
+## Designed sound
+
+| Moment on screen | Sound |
+|---|---|
+| A cutaway or a screen sliding in | whoosh (lands as the picture lands) |
+| A title, card or pill popping in | pop |
+| The big line | hit |
+| Text typing out | keyboard typing |
+| A tap, a check, a button | click / tap |
+| A drawn line or circle | pen scribble |
+| A build-up | riser |
+
+Sounds come from your own kit, levelled against your voice, and nothing sits on top of a word. Add music inside
+Instagram or TikTok when you post: it's licensed there, and trending sounds help reach.
+
+## What you need
+
+| | |
+|---|---|
+| **Agent** | Claude Code (the Code tab in the Claude desktop app, or the `claude` terminal app; paid Claude plan) **or** Codex. Have both? One install works in both. |
+| **Computer** | A Mac (Apple Silicon is fastest). Linux and Windows aren't supported yet. |
+| **Apps** | Google Chrome, ffmpeg, Node.js, Python 3. Setup names anything missing with the one-line command to install it. |
+| **Space** | About 3 GB (the editing tools and the speech-to-text model download once). |
+
+## Tips
+
+- Film vertical (9:16). Retakes and mistakes are fine: the story cut takes care of them.
+- iPhone HDR footage: export as SDR first (Photos: Share → Options → Most Compatible).
+- Write any on-screen joke text exactly how you want it shown. It's used word for word.
+
+## Resources
+
+| | |
+|---|---|
+| [**Cap**](https://cap.so) | Free screen recorder. Record your app or site and the skill can show it in your reel. |
+| [**Mixkit free sound effects**](https://mixkit.co/free-sound-effects/) | Where your sound kit comes from, free to use in your videos. The skill downloads only the sounds you OK; none ship with it. |
+| [**Epidemic Sound**](https://www.epidemicsound.com) | Optional, paid. Download a sound from your own account (you sign in, never the agent) and say "add this to my sound kit as a whoosh". |
+| **Reference reels** | Your Instagram Saved, TikTok Favorites, or YouTube Shorts you've liked. Pick reels you'd love yours to look and sound like. |
+
+## FAQ
+
+<details><summary><b>Does my footage get uploaded anywhere?</b></summary>
+
+No. Everything runs on your Mac. Your videos never leave it.
+</details>
+
+<details><summary><b>How do I update?</b></summary>
+
+Paste the install prompt again. Your styles, videos and sound kit live in your Reels folder and are never touched.
+</details>
+
+<details><summary><b>It says Homebrew (or ffmpeg, Node.js, Chrome) is missing.</b></summary>
+
+Install what it names with the command it gives (Homebrew from https://brew.sh), then paste the prompt again.
+</details>
+
+<details><summary><b>Can I use the reels commercially?</b></summary>
+
+Yes, your reels are yours. See [LICENSE.md](LICENSE.md) for the skill itself and the third-party parts.
+</details>
 
 ## Agent setup
 
@@ -65,60 +173,22 @@ What it does: keeps a copy of this repo in `~/.reel-editor/source` (updated in p
 links it for Codex when Codex is installed (one copy for both apps), and runs setup, which names anything missing
 (ffmpeg, Node.js, Chrome, Python) with the command to install it. An older version never replaces a newer install.
 
-## Your first edit
-
-It's a conversation, with two stops where you decide:
-
-1. **Your Reels folder.** Claude asks where to keep your videos (outside iCloud, so big files don't fill your iCloud
-   or go "offline"). You get an inbox, your style, and one folder per video.
-2. **Build my style.** Send 3 to 5 reel links (Instagram, TikTok or YouTube) or video files. A line on what you like
-   about each one helps, but isn't needed. You approve a test still before it's saved.
-3. **Stop 1, the A cut.** Watch the story cut of your raw footage. Ask for changes or say it's good.
-4. **Stop 2, the storyboard.** See where every caption and graphic lands. Change anything.
-5. **Your sound kit (first time only).** Claude finds about 3 free Mixkit sounds for each kind of moment (whoosh,
-   pop, hit, typing...), asks before downloading them, and plays each one on your own video. You keep the ones you
-   like, and every reel after that uses your kit.
-6. **Your reel.** A full-quality file to post, a lighter copy for your phone, and every version kept (`-v1`, `-v2`...).
-
-After that, just ask:
-
-> Edit the video in my inbox.
-
-> When I say "my app", show a screenshot of my homepage (~/Desktop/home.png) full screen.
-
-> Add a comment box for my CTA "Comment GUIDE", my handle is @yourhandle.
-
-Then give feedback like you would to an editor: "the captions a touch bigger", "that whoosh comes in late", "make
-that the default".
-
-## Tips
-
-- Film vertical (9:16). Retakes and mistakes are fine: the story cut takes care of them.
-- iPhone HDR footage: export as SDR first (Photos: Share → Options → Most Compatible).
-- Add music inside Instagram or TikTok when you post. It's licensed there, and trending sounds help reach.
-- Write any on-screen joke text exactly how you want it shown. Claude uses it word for word.
-
-## Resources
-
-- **Cap** (https://cap.so): a free screen recorder. Record your app or website and Claude can show it in your reel.
-- **Mixkit free sound effects** (https://mixkit.co/free-sound-effects/): where your sound kit comes from. Free to use
-  in your videos under the Mixkit licence. Claude downloads only the sounds you OK, for you; none ship with the skill.
-- **Epidemic Sound** (https://www.epidemicsound.com, optional, paid): already subscribe? Download a sound from your
-  account yourself (you sign in, never Claude) and say "add this to my sound kit as a whoosh". You need an active
-  subscription on the day you post.
-- **Music:** add it in the Instagram or TikTok app when you post (see Tips).
-- **Reference reels for Build my style:** your Instagram Saved, TikTok Favorites, or the YouTube Shorts you've liked.
-  Pick reels you'd love your own to look and sound like, not just ones that went viral.
-
 ## What's inside
 
-- `SKILL.md`: the instructions Claude follows.
-- `reference/`: the why behind every rule: story cut, style builder, graphics, audio and sound design.
-- `scripts/`: install, setup, story cut, transcription, captions, rendering, safe-area check, sound kit, sound design,
-  mix, export.
-- `template/`: the animation page your graphics are built in.
-- `style.json`: the base look's numbers. Your own style lives in your Reels folder (`01_Styles/my-style/`), so an
-  update never loses it.
-- `fonts/`: TikTok Sans, Inter and Hanken Grotesk (free, open licence). `LICENSE.md` lists everything third-party.
+| Path | |
+|---|---|
+| `skill/SKILL.md` | The instructions your agent follows. |
+| `skill/reference/` | The why behind every rule: story cut, style builder, graphics, audio and sound design. |
+| `skill/scripts/` | Install, setup, story cut, transcription, captions, rendering, safe-area check, sound kit, mix, export. |
+| `skill/template/` | The animation page your graphics are built in. |
+| `skill/fonts/` | TikTok Sans, Inter and Hanken Grotesk (free, open licence). |
 
-Made by Ant Mancini · Instagram: @ant.mancini
+Your own style lives in your Reels folder (`01_Styles/my-style/`), so an update never loses it.
+
+---
+
+<div align="center">
+
+Made by **Ant Mancini** · [Instagram @ant.mancini](https://www.instagram.com/ant.mancini/) · [License](LICENSE.md)
+
+</div>
