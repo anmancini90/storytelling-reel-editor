@@ -1,0 +1,129 @@
+{
+  "_note": "The base look. Every edit starts from this file with the creator's saved style (<workspace>/01_Styles/my-style/style.json, made by Build my style) merged over it. Change preferences there, not here.",
+  "fps": 30,
+  "fps_mode": "match_source",
+  "width": 1080,
+  "height": 1920,
+  "captions": {
+    "font_family": "TikTok Sans",
+    "weight": 600,
+    "size_px": 56,
+    "tracking_em": -0.035,
+    "line_height": 1.12,
+    "center_y": 1440,
+    "color": "#ffffff",
+    "mode": "chunk",
+    "_mode": "chunk (max_words at a time) | word (one word) | bold (one big word; layouts) | small (one word under the chin; layouts) | off",
+    "case": "as_spoken",
+    "italic": false,
+    "shadow": "none",
+    "_shadow": "none | soft | strong | any CSS text-shadow",
+    "outline_px": 0,
+    "outline_color": "#000000",
+    "box": null,
+    "_box": "null, or a colour drawn behind the words (e.g. \"#000000b3\")",
+    "animation": "cut",
+    "_animation": "cut (hard cut on and off) | pop (each chunk scales in over 0.1 s)",
+    "keywords": [],
+    "keyword_color": "key",
+    "_keywords": "words shown in keyword_color (a palette name or a hex colour); numbers too when numbers_are_keywords",
+    "numbers_are_keywords": false,
+    "max_words": 3,
+    "max_chars": 18,
+    "lead_s": 0.04,
+    "hold_s": 0.5,
+    "gap_break_s": 0.28,
+    "censor": {
+      "fuck": "f*ck",
+      "fucking": "f*cking",
+      "fucked": "f*cked",
+      "shit": "sh*t",
+      "bitch": "b*tch",
+      "ass": "a*s"
+    }
+  },
+  "palette": {
+    "_note": "The graphics' colours. accent = the main colour (headline accents, underlines, bars, highlights); accent_light / accent_dark / key are worked out from accent when left out; ink = dark text; paper = light panels and cards; canvas = the light grid canvas.",
+    "accent": "#b7904b",
+    "accent_light": "#dec68f",
+    "accent_dark": "#845f1e",
+    "key": "#f2c14e",
+    "ink": "#161514",
+    "paper": "#f5f1e9",
+    "canvas": "#ecebe8"
+  },
+  "fonts": {
+    "_note": "hook = kinetic hook headlines, impact words, chips; headline = layout headlines, stats, banners; body = card text; serif = accents; mono = code and terminal text. Bundled: TikTok Sans, Inter, Hanken Grotesk. Or any font on the Mac (Baskerville, Futura, Avenir Next, Didot, Helvetica Neue, Menlo...).",
+    "hook": "TikTok Sans",
+    "headline": "Hanken Grotesk",
+    "body": "Inter",
+    "serif": "Baskerville",
+    "mono": "Menlo"
+  },
+  "text": {
+    "_note": "Looks for TXT.show (template/type.js): titles, labels, big numbers, text cards, code lines. Every key is optional; the full list is at the top of type.js. A style adds or changes presets here.",
+    "title": {
+      "font": "hook",
+      "weight": 800,
+      "size_px": 96,
+      "color": "#ffffff",
+      "shadow": "soft",
+      "in": "word"
+    },
+    "label": {
+      "font": "body",
+      "weight": 600,
+      "size_px": 44,
+      "color": "#ffffff",
+      "shadow": "soft",
+      "in": "pop"
+    },
+    "number": {
+      "font": "hook",
+      "weight": 900,
+      "size_px": 200,
+      "color": "accent",
+      "outline_px": 0,
+      "shadow": "strong",
+      "in": "pop"
+    },
+    "card": {
+      "font": "body",
+      "weight": 700,
+      "size_px": 58,
+      "color": "ink",
+      "box": "paper",
+      "shadow": "none",
+      "in": "word"
+    },
+    "code": {
+      "font": "mono",
+      "weight": 500,
+      "size_px": 40,
+      "color": "#e8e8e8",
+      "accent": "accent",
+      "box": "#0d0d0dE6",
+      "box_radius": 14,
+      "shadow": "none",
+      "in": "type"
+    }
+  },
+  "safe_area": {
+    "top": 192,
+    "bottom": 1536,
+    "rail_x": 900,
+    "rail_from_y": 960,
+    "head_clearance_px": -40
+  },
+  "audio": {
+    "voice_gain": 2.0,
+    "music_intro_gain": 0.25,
+    "music_gain": 0.1,
+    "music_fade_out_s": 1.2,
+    "sfx_gain_db": -7,
+    "limit_db": -1.0,
+    "voice_polish": true,
+    "sfx_intensity": "balanced",
+    "sfx_roles": ["whoosh-short", "whoosh-long", "pop", "click", "tap", "hit", "type", "swipe", "send", "notify", "riser", "scribble"]
+  }
+}
