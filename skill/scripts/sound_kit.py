@@ -263,6 +263,21 @@ def load_candidates(kit=None):
     return json.load(open(p)) if p and os.path.exists(p) else {}
 
 
+def is_sound_id(i):
+    """A Mixkit sound id is a number; anything else would end up in a file path, so it is never used."""
+    return isinstance(i, str) and re.fullmatch(r"[0-9]{1,9}", i) is not None
+
+
+def valid_picks(picks):
+    """Picks from the listen page: {role: [sound id, ...]} with known roles and numeric ids, or None."""
+    if not isinstance(picks, dict):
+        return None
+    for role, ids in picks.items():
+        if role not in ROLES or not isinstance(ids, list) or not all(is_sound_id(i) for i in ids):
+            return None
+    return picks
+
+
 def fetch(ids, yes, head=head_size, dest=None, get=get_bytes, candidates=None):
     """Without yes: list each file (name, source, size) for the creator's OK and download nothing. With yes: download the
     full-quality WAV (the file Mixkit's Download button gives), or the preview MP3 when the WAV isn't reachable, into
@@ -273,6 +288,9 @@ def fetch(ids, yes, head=head_size, dest=None, get=get_bytes, candidates=None):
     titles = {c["id"]: c["title"] for cs in (candidates if candidates is not None else load_candidates()).values() for c in cs}
     plan, total = [], 0
     for i in dict.fromkeys(ids):
+        if not is_sound_id(i):
+            print(f"  {i!r}: not a Mixkit sound id, skipped")
+            continue
         name = f"{i}-{slug(titles.get(i, 'sound'))}"
         url, ext, size = ASSET.format(id=i, kind="").rstrip("-") + ".wav", "wav", 0
         try:
@@ -391,6 +409,8 @@ def build_kit(picks, kit=None, originals=None, candidates=None):
     for role, ids in picks.items():
         entries = []
         for i in ids:
+            if not is_sound_id(i):
+                sys.exit(f"{role}: {i!r} isn't a Mixkit sound id")
             if i not in originals:
                 sys.exit(f"{role}: sound {i} isn't downloaded yet (run fetch first)")
             c = info.get(i, {})
@@ -689,7 +709,13 @@ def start_listen_server(candidates, kit=None, port=0, open_browser=True, accent=
                 return self._send(403, b"missing key")
             if u.path != "/picks":
                 return self._send(404)
-            picks = json.loads(self.rfile.read(int(self.headers.get("Content-Length") or 0)) or b"{}")
+            n = int(self.headers.get("Content-Length") or 0)
+            try:
+                picks = valid_picks(json.loads(self.rfile.read(n) or b"{}")) if n <= 100_000 else None
+            except ValueError:
+                picks = None
+            if picks is None:
+                return self._send(400, b"picks must be {role: [sound id, ...]}")
             json.dump(picks, open(os.path.join(kit, "picks.json"), "w"), indent=1)
             self._send(200, b'{"saved": true}', "application/json")
 
